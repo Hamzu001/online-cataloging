@@ -5,7 +5,9 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "dev": "nodemon ./src/server/index.js"
+    "build": "vite build",
+    "dev": "nodemon ./src/server/index.js",
+    "start": "node ./src/server/index.js"
   },
   "author": "",
   "license": "ISC",
