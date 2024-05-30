@@ -1,24 +1,16 @@
 import mysql from "mysql";
+import { dbName } from "../constants.js";
 
-const connectionToMySql = mysql.createConnection({
-  host: "localhost",
-  user: "root",
-  password: "",
-  database: "user",
+const connectToMySql = mysql.createConnection({
+  host: process.env.mySQL_HOST,
+  user: process.env.mySQL_USER,
+  password: process.env.mySQL_PASSWORD,
+  database: dbName,
 });
 
-connectionToMySql.connect((err) => {
+connectToMySql.connect((err) => {
   if (err) return console.log(err);
   console.log("connected to mySql database");
 });
 
-connectionToMySql.query("SELECT * FROM userdetails", (err, result) => {
-  if (err) return console.log(err);
-  console.log(
-    result.map((i) => {
-      return i;
-    })
-  );
-});
-
-export default connectionToMySql;
+export default connectToMySql;
