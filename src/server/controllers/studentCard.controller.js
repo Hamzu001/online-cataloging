@@ -1,20 +1,10 @@
 import connectToMySql from "../db/index.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
-import { generateShortId } from "../utils/functions.js";
-import { generateQRCode } from "../utils/generateQRCode.js";
 
 // create student card
 const createStudentCard = asyncHandler(async (req, res) => {
   //  console.log(req.file.filename);
-  const studentId = generateShortId(6);
-  const { err, baseUrl } = await generateQRCode(studentId);
-  if (err) {
-    return res
-      .status(400)
-      .json(new ApiResponse(400, null, "generate qrcode error!"));
-  }
-
   const {
     name,
     fatherName,
@@ -43,10 +33,9 @@ const createStudentCard = asyncHandler(async (req, res) => {
 
   try {
     const sqlQuery =
-      "INSERT INTO `cards` (`studentId`, `name`, `fatherName`, `phoneNumber`, `department`, `joinDate`, `session`, `rollNumber`, `studentImage`, `baseUrl`) VALUES (?,?,?,?,?,?,?,?,?,?)";
+      "INSERT INTO `cards` (`name`, `fatherName`, `phoneNumber`, `department`, `joinDate`, `session`, `rollNumber`, `studentImage` ) VALUES (?,?,?,?,?,?,?,?)";
 
     const values = [
-      studentId,
       name,
       fatherName,
       phoneNumber,
@@ -54,8 +43,7 @@ const createStudentCard = asyncHandler(async (req, res) => {
       joinDate,
       session,
       rollNumber,
-      req.file.filename,
-      baseUrl,
+      req.file.filename
     ];
 
     const insertToDb = new Promise((resolve) => {
