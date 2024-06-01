@@ -1,8 +1,9 @@
+import "dotenv/config.js";
 import ViteExpress from "vite-express";
 import app from "./app.js";
 
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
-ViteExpress.listen(app, PORT, () => {
+export default ViteExpress.listen(app, PORT, () => {
   console.log("Server is runing on port", PORT);
 });
