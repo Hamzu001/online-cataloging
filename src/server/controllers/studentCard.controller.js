@@ -4,7 +4,6 @@ import { asyncHandler } from "../utils/asyncHandler.js";
 
 // create student card
 const createStudentCard = asyncHandler(async (req, res) => {
-  //  console.log(req.file.filename);
   const {
     name,
     fatherName,
@@ -43,7 +42,7 @@ const createStudentCard = asyncHandler(async (req, res) => {
       joinDate,
       session,
       rollNumber,
-      req.file.filename
+      req.file.filename,
     ];
 
     const insertToDb = new Promise((resolve) => {
@@ -147,7 +146,7 @@ const updateStudentCard = asyncHandler(async (req, res) => {
 
   try {
     const sqlQuery =
-    "UPDATE cards SET `name`=?, `fatherName`=?, `phoneNumber`=?, `department`=?, `joinDate`=?, `session`=?, `rollNumber`=? WHERE studentId=?";
+      "UPDATE cards SET `name`=?, `fatherName`=?, `phoneNumber`=?, `department`=?, `joinDate`=?, `session`=?, `rollNumber`=? WHERE studentId=?";
 
     const values = [
       name,
@@ -161,7 +160,7 @@ const updateStudentCard = asyncHandler(async (req, res) => {
     ];
 
     const updateToDb = new Promise((resolve) => {
-      return connectToMySql.query(sqlQuery, values , (err, result) => {
+      return connectToMySql.query(sqlQuery, values, (err, result) => {
         resolve({ err, result });
       });
     });
@@ -176,8 +175,13 @@ const updateStudentCard = asyncHandler(async (req, res) => {
 
     res
       .status(200)
-      .json(new ApiResponse(200, {success : true}, "update student college card successfully"));
-
+      .json(
+        new ApiResponse(
+          200,
+          { success: true },
+          "update student college card successfully"
+        )
+      );
   } catch (error) {
     console.log(error);
     res.status(200).json(new ApiResponse(500, null, "server error"));
