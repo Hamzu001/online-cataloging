@@ -11,10 +11,12 @@ import booksRouter from "./routes/books.route.js";
 import studentCardRouter from "./routes/studentCard.route.js";
 import fineDetailsRouter from "./routes/fineDetails.route.js";
 import studentFineRouter from "./routes/studentFine.route.js";
+import studentDetailRouter from "./routes/details.route.js";
 
 app.use("/api/v1/books", booksRouter);
 app.use("/api/v1/student", studentCardRouter);
 app.use("/api/v1/finedetail", fineDetailsRouter);
 app.use("/api/v1/studentfine", studentFineRouter);
+app.use("/api/v1/details", studentDetailRouter);
 
 export default app;

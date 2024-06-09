@@ -1,8 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import QRCode from "qrcode";
+import { Context } from "../../context/Context";
 
-const CardUi = ({ data }) => {
-  const cardDetails = data[0];
+const CardUi = () => {
+  const { prevCardDetail } = useContext(Context)
+  const cardDetails = prevCardDetail[0];
   const [qrCode, setQrCode] = useState(null);
 
   useEffect(() => {
@@ -18,12 +20,12 @@ const CardUi = ({ data }) => {
     generateQRCode(cardDetails.studentId.toString())
   }, []);
 
-  console.log(cardDetails);
+  // console.log(cardDetails);
   return (
     <div className="container pt-1">
       <div className="get-pdf">
-        <div className=" gap-y-4 flex py-2">
-          <div className="text-[13px] mr-2 rounded-lg overflow-hidden h-[200px] w-[320px] md:w-[400px] md:h-[233px] bg-slate-200">
+        <div className=" gap-y-4 flex py-2 flex-col sm:flex-row">
+          <div className="text-[13px] mr-2 rounded-lg h-[200px] w-[320px] md:w-[400px] md:h-[233px] bg-slate-200 relative overflow-hidden">
             <div className="bg-[#841d26] text-center">
               <h1 className="py-2 text-[#e49479] font-serif whitespace-pre md:text-[16px] font-bold">
                 <i> Govt. Municipal Graduate College </i>
@@ -32,7 +34,7 @@ const CardUi = ({ data }) => {
             </div>
             <div className="text-center underline text-xs md:text-[15px] text-[#3f9f49] py-1 mb-1 font-bold">
               <p className=" italic">
-                Student Card/<span>{cardDetails.session}</span>
+                Student Card / <span>{cardDetails.session}</span>
               </p>
             </div>
             <div className="flex mb-1 gap-x-2">
@@ -79,20 +81,24 @@ const CardUi = ({ data }) => {
                 </div>
               </div>
             </div>
-            <div className="text-center p-1 text-white text-[13px] bg-[#90b4c4]">
+            <div className="text-center p-1 text-white text-[13px] bg-[#90b4c4] absolute bottom-0 z-20 w-full">
               <span className="font-bold">
                 Date to Join : {cardDetails.joinDate}
               </span>{" "}
             </div>
           </div>
-          {/* card back side  */}
+
+
+          {/*------------- card back side -----------------  */}
+
+
           <div className="flex flex-col relative h-[200px] w-[320px] md:w-[400px] md:h-[233px] rounded-lg bg-slate-200 overflow-hidden">
             <div className="text-md font-semibold bg-[#579cbc] sm:p-2 p-1 text-center">
               IF FOUND PLEASE RETURN TO
             </div>
-            <div className="sm:p-4 p-5 flex gap-4 justify-center items-center">
+            <div className="sm:p-4 p-5 flex gap-4 justify-center items-center mt-4">
               {/* //////---QR Code---////// */}
-              <div className="">
+              <div className="mt-1">
                 {qrCode ? (
                   <img
                     src={qrCode}
@@ -108,7 +114,7 @@ const CardUi = ({ data }) => {
               </div>
 
               <div className="flex justify-center items-center">
-                <h1 className="text-xl font-bold text-center">
+                <h1 className="text-xl font-serif font-bold text-center">
                   Govt. Municipal Graduate College Faisalabad
                 </h1>
               </div>

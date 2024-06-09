@@ -46,12 +46,13 @@ const createStudentFine = asyncHandler(async (req, res) => {
 });
 
 // get all fine
-const getFine = asyncHandler(async (_, res) => {
+const getFine = asyncHandler(async (req, res) => {
+  const { id } = req.params
   try {
-    const sqlQuery = "SELECT * FROM fine_details";
+    const sqlQuery = "SELECT * FROM student_fines_list WHERE studentId=?";
 
     const getToDb = new Promise((resolve) => {
-      return connectToMySql.query(sqlQuery, (err, result) => {
+      return connectToMySql.query(sqlQuery, [id], (err, result) => {
         resolve({ err, result });
       });
     });
@@ -66,7 +67,7 @@ const getFine = asyncHandler(async (_, res) => {
         );
     }
 
-    res.status(200).json(new ApiResponse(200, result, "get all fine details"));
+    res.status(200).json(new ApiResponse(200, result, "get student fine details"));
   } catch (error) {
     console.log(error);
     res.status(200).json(new ApiResponse(500, null, "server error"));
@@ -152,4 +153,4 @@ const deleteFine = asyncHandler(async (req, res) => {
   }
 });
 
-export { createStudentFine };
+export { createStudentFine, getFine };

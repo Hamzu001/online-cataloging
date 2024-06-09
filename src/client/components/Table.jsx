@@ -1,18 +1,17 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import PreviewModel from "./PreviewModel";
+import { FaEdit } from "react-icons/fa";
+import { MdDelete } from "react-icons/md";
+import { GrView } from "react-icons/gr";
+import { Context } from "../context/Context";
 
-const Table = ({ studentCardDetails }) => {
-  const [showModal, setShowModal] = useState(false);
-  const [prevCardDetail, setPrevCardDetail] = useState('')
-
-  const handlePreview = async (id) => {
-    const res = await fetch(`/api/v1/student/search-student-card/${id}`);
-    const getCardDetail = await res.json();
-    if (getCardDetail) {
-      setPrevCardDetail(getCardDetail.data)
-      setShowModal(true)
-    }
-  };
+const Table = () => {
+  const {
+    cardData,
+    handlePreviewStudentCard,
+    showModal,
+    handleDeleteStudentCard,
+  } = useContext(Context);
 
   return (
     <div>
@@ -50,7 +49,7 @@ const Table = ({ studentCardDetails }) => {
         </thead>
 
         <tbody>
-          {studentCardDetails.map((items) => (
+          {cardData.map((items) => (
             <tr
               key={items.studentId}
               className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
@@ -63,32 +62,34 @@ const Table = ({ studentCardDetails }) => {
               <td className="px-6 py-4">{items.department}</td>
               <td className="px-6 py-4">{items.session}</td>
               <td className="px-6 py-4">{items.joinDate}</td>
-              <td className="flex items-center px-6 py-4">
+              <td className="flex items-center gap-2 px-6 py-4">
                 <button
-                  onClick={()=> handlePreview(items.studentId)}
+                  onClick={() => handlePreviewStudentCard(items.studentId)}
                   type="button"
-                  className="font-medium mx-2 border border-black p-1 rounded-lg text-black"
+                  className="font-medium mx-2 text-xl text-black"
                 >
-                  Preview
+                  <GrView />
                 </button>
-                <a
-                  href="#"
-                  className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
-                >
-                  Edit
-                </a>
                 <button
-                  onClick={() => console.log(items.studentId)}
-                  className="font-medium mx-2 border border-black p-1 rounded-lg text-black"
+                  onClick={() => alert(" update soon")}
+                  type="button"
+                  className="font-medium text-xl text-blue-600 dark:text-blue-500 hover:underline"
                 >
-                  Remove
+                  <FaEdit />
+                </button>
+                <button
+                  type="button"
+                  onClick={() => handleDeleteStudentCard(items.studentId)}
+                  className="font-medium mx-2 text-2xl  text-red-600 "
+                >
+                  <MdDelete />
                 </button>
               </td>
             </tr>
           ))}
         </tbody>
       </table>
-      {showModal ? <PreviewModel cardDetail={prevCardDetail} isModal={setShowModal} /> : null}
+      {showModal ? <PreviewModel /> : null}
     </div>
   );
 };

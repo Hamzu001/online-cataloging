@@ -105,6 +105,7 @@ const getStudentCard = asyncHandler(async (req, res) => {
 // search student card by id
 const searchStudentCard = asyncHandler(async (req, res) => {
   const { id } = req.params;
+
   try {
     const sqlQuery = "SELECT * FROM cards WHERE `studentId`= ?";
 
@@ -120,6 +121,12 @@ const searchStudentCard = asyncHandler(async (req, res) => {
       return res
         .status(400)
         .json(new ApiResponse(400, null, "search data to mySql-DB error"));
+    }
+
+    if (result.length === 0) {
+      return res
+        .status(400)
+        .json(new ApiResponse(400, null, "Invalid Student ID"));
     }
 
     res
@@ -191,6 +198,7 @@ const updateStudentCard = asyncHandler(async (req, res) => {
 // delete card
 const deleteStudentCard = asyncHandler(async (req, res) => {
   const { id } = req.params;
+  // console.log(id);
   try {
     const sqlQuery = "DELETE FROM cards WHERE studentId=?";
 

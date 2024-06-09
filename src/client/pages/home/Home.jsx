@@ -3,10 +3,10 @@ import Table from "../../components/Table";
 import Search from "../../components/Search";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { Context, ContextProvider } from "../../context/Context";
+import { Context } from "../../context/Context";
 
 const Home = () => {
-  const { cardData } = useContext(Context)
+  const { cardData } = useContext(Context);
   const navigate = useNavigate();
 
   return (
@@ -17,7 +17,7 @@ const Home = () => {
           <div>
             <button
               onClick={() => navigate("/create-new-card")}
-              className="inline-flex items-center text-gray-500 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-lg text-sm px-3 py-1.5 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
+              className="bg-black/80 hover:bg-black transition-all text-sm px-4 py-2 rounded-lg text-white"
               type="button"
             >
               Create New Card
@@ -25,11 +25,7 @@ const Home = () => {
           </div>
         </div>
         <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
-          {cardData ? (
-            <Table studentCardDetails={cardData} />
-          ) : (
-            <div> Loading....</div>
-          )}
+          {cardData ? <Table /> : <div> Loading....</div>}
         </div>
       </div>
     </div>
