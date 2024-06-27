@@ -105,9 +105,12 @@ const getStudentCard = asyncHandler(async (req, res) => {
 // search student card by id
 const searchStudentCard = asyncHandler(async (req, res) => {
   const { id } = req.params;
+  const rollNo = id.search("-");
 
   try {
-    const sqlQuery = "SELECT * FROM cards WHERE `studentId`= ?";
+    const sqlQuery = `SELECT * FROM cards WHERE ${
+      rollNo > 0 ? "`rollNumber`= ?" : "`studentId`= ?"
+    }`;
 
     const searchToDb = new Promise((resolve) => {
       return connectToMySql.query(sqlQuery, [id], (err, result) => {
@@ -151,9 +154,11 @@ const updateStudentCard = asyncHandler(async (req, res) => {
     rollNumber,
   } = req.body;
 
+  // console.log(id, name, req.file ? req.file?.filename : "no img");
+
   try {
-    const sqlQuery =
-      "UPDATE cards SET `name`=?, `fatherName`=?, `phoneNumber`=?, `department`=?, `joinDate`=?, `session`=?, `rollNumber`=? WHERE studentId=?";
+    let sqlQuery =
+      "UPDATE cards SET `name`=?, `fatherName`=?, `phoneNumber`=?, `department`=?, `joinDate`=?, `session`=?, `rollNumber`=?";
 
     const values = [
       name,
@@ -163,8 +168,15 @@ const updateStudentCard = asyncHandler(async (req, res) => {
       joinDate,
       session,
       rollNumber,
-      id,
     ];
+
+    if (req.file?.filename) {
+      sqlQuery += ", `studentImage`=?";
+      values.push(req.file.filename);
+    }
+
+    sqlQuery += " WHERE studentId=?";
+    values.push(id);
 
     const updateToDb = new Promise((resolve) => {
       return connectToMySql.query(sqlQuery, values, (err, result) => {

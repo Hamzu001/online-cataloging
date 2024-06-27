@@ -4,8 +4,11 @@ import { FaEdit } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
 import { GrView } from "react-icons/gr";
 import { Context } from "../context/Context";
+import CardUi from "./studentCard/CardUi";
+import { useNavigate } from "react-router-dom";
 
 const Table = () => {
+  const navigate = useNavigate()
   const {
     cardData,
     handlePreviewStudentCard,
@@ -71,7 +74,7 @@ const Table = () => {
                   <GrView />
                 </button>
                 <button
-                  onClick={() => alert(" update soon")}
+                  onClick={() => navigate(`/update-card/${items.studentId}`)}
                   type="button"
                   className="font-medium text-xl text-blue-600 dark:text-blue-500 hover:underline"
                 >
@@ -89,7 +92,9 @@ const Table = () => {
           ))}
         </tbody>
       </table>
-      {showModal ? <PreviewModel /> : null}
+      {showModal ? (
+        <PreviewModel title="Student College Card" component={<CardUi />} />
+      ) : null}
     </div>
   );
 };

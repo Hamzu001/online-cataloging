@@ -45,7 +45,7 @@ const createStudentFine = asyncHandler(async (req, res) => {
   }
 });
 
-// get all fine
+// search fine by student id
 const getFine = asyncHandler(async (req, res) => {
   const { id } = req.params
   try {

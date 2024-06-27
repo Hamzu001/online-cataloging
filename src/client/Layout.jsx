@@ -6,6 +6,8 @@ import Navbar from "./components/Header/Navbar.jsx";
 import Oops from "./pages/notFound/Oops.jsx";
 import CreateStudentCard from "./pages/createNewCard/CreateStudentCard.jsx";
 import StudentCards from "./pages/studentcards/StudentCards.jsx";
+import StudentFine from "./pages/studenFine/StudentFine.jsx"
+import UpdateCard from "./pages/updateCard/UpdateCard.jsx";
 
 const AppLayout = () => {
   return (
@@ -22,7 +24,9 @@ const AppLayout = () => {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/create-new-card" element={<CreateStudentCard />} />
+        <Route path="/update-card/:id" element={<UpdateCard />} />
         <Route path="/student-card" element={<StudentCards />} />
+        <Route path="/student-fine" element={<StudentFine />} />
         <Route path="*" element={<Oops />} />
       </Routes>
     </>

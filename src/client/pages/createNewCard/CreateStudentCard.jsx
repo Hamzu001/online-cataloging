@@ -6,8 +6,7 @@ const CreateStudentCard = () => {
   
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const form = e.currentTarget;
-    const formData = new FormData(form);
+    const formData = new FormData(e.currentTarget);
     try {
       const responce = await fetch("/api/v1/student/create-student-card", {
         method: "POST",
@@ -35,7 +34,7 @@ const CreateStudentCard = () => {
 
   return (
     <div>
-      <Form formSubmit={handleSubmit} />
+      <Form formSubmit={handleSubmit} isUpdate={null} />
     </div>
   );
 };

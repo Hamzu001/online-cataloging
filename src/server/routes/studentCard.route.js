@@ -7,7 +7,7 @@ const router = Router()
 router.route("/create-student-card").post(upload.single("file"), createStudentCard)
 router.route("/get-student-card").get(getStudentCard)
 router.route("/search-student-card/:id").get(searchStudentCard)
-router.route("/update-student-card/:id").put(updateStudentCard)
+router.route("/update-student-card/:id").put(upload.single("file"),updateStudentCard)
 router.route("/delete-student-card/:id").delete(deleteStudentCard)
 
 export default router;

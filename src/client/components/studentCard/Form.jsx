@@ -1,6 +1,6 @@
 import React from "react";
 
-const Form = ({ formSubmit }) => {
+const Form = ({ formSubmit, isUpdate }) => {
   return (
     <form className="flex items-center justify-center p-8" onSubmit={formSubmit}>
       <div className="flex sm:flex-row flex-col justify-center items-center gap-9 w-[90%]  p-2 rounded-lg shadow-lg">
@@ -10,7 +10,8 @@ const Form = ({ formSubmit }) => {
               <img
                 className="img-fluid rounded-md h-[240px] w-[190px]"
                 id="imageoutput"
-                alt=""
+                alt="upload image"
+                src={isUpdate?"/student-card-images/" + isUpdate.studentImage:""}
               />
             </div>
           </div>
@@ -26,7 +27,7 @@ const Form = ({ formSubmit }) => {
             type="file"
             name="file"
             className="w-[210px] mt-1 border cursor-pointer rounded-lg border-black/60 p-1"
-            required
+            // required
           />
         </div>
         <div className="w-full">
@@ -37,6 +38,7 @@ const Form = ({ formSubmit }) => {
               id="name"
               className="input-style peer"
               placeholder=" "
+              defaultValue={isUpdate?isUpdate.name:""}
               required
             />
             <label htmlFor="name" className="placeHoler-animation">
@@ -50,6 +52,7 @@ const Form = ({ formSubmit }) => {
               name="fatherName"
               className="input-style peer"
               placeholder=" "
+              defaultValue={isUpdate?isUpdate.fatherName:""}
               required
             />
             <label htmlFor="fatherName" className="placeHoler-animation">
@@ -63,6 +66,7 @@ const Form = ({ formSubmit }) => {
               name="phoneNumber"
               className="input-style peer"
               placeholder=" "
+              defaultValue={isUpdate?isUpdate.phoneNumber:""}
               required
             />
             <label htmlFor="phoneNumber" className="placeHoler-animation">
@@ -76,6 +80,7 @@ const Form = ({ formSubmit }) => {
               name="department"
               className="input-style peer"
               placeholder=" "
+              defaultValue={isUpdate?isUpdate.department:""}
               required
             />
             <label htmlFor="department" className="placeHoler-animation">
@@ -90,6 +95,7 @@ const Form = ({ formSubmit }) => {
                 name="joinDate"
                 className="input-style peer"
                 placeholder=" "
+                defaultValue={isUpdate?isUpdate.joinDate:""}
                 required
               />
               <label htmlFor="date" className="placeHoler-animation">
@@ -103,6 +109,7 @@ const Form = ({ formSubmit }) => {
                 name="rollNumber"
                 className="input-style peer"
                 placeholder=" "
+                defaultValue={isUpdate?isUpdate.rollNumber:""}
                 required
               />
               <label htmlFor="rollNumber" className="placeHoler-animation">
@@ -118,6 +125,7 @@ const Form = ({ formSubmit }) => {
                 name="session"
                 className="input-style peer"
                 placeholder=""
+                defaultValue={isUpdate?isUpdate.session:""}
                 required
               />
               <label htmlFor="session" className="placeHoler-animation">
@@ -141,7 +149,7 @@ const Form = ({ formSubmit }) => {
             type="submit"
             className="mr-2 mt-1 text-white bg-black/90 hover:bg-black/75 active:scale-95 transition-all font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 w-full"
           >
-            Submit
+            {isUpdate? "Update":"Submit"}
           </button>
         </div>
       </div>
