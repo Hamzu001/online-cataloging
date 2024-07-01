@@ -3,8 +3,7 @@ import QRCode from "qrcode";
 import { Context } from "../../context/Context";
 
 const CardUi = () => {
-  const { prevCardDetail } = useContext(Context)
-  const cardDetails = prevCardDetail[0];
+  const { prevCardDetail } = useContext(Context);
   const [qrCode, setQrCode] = useState(null);
 
   useEffect(() => {
@@ -14,13 +13,12 @@ const CardUi = () => {
           setQrCode(url);
         })
         .catch((err) => {
-          console.error("erer qrcode",err);
+          console.error("erer qrcode", err);
         });
     }
-    generateQRCode(cardDetails.studentId.toString())
+    generateQRCode(prevCardDetail.studentId.toString());
   }, []);
 
-  // console.log(cardDetails);
   return (
     <div className="container pt-1">
       <div className="get-pdf">
@@ -34,7 +32,7 @@ const CardUi = () => {
             </div>
             <div className="text-center underline text-xs md:text-[15px] text-[#3f9f49] py-1 mb-1 font-bold">
               <p className=" italic">
-                Student Card / <span>{cardDetails.session}</span>
+                Student Card / <span>{prevCardDetail.session}</span>
               </p>
             </div>
             <div className="flex mb-1 gap-x-2">
@@ -42,7 +40,7 @@ const CardUi = () => {
                 crossOrigin="anonymous"
                 alt="Loading...."
                 className="ml-2 md:ml-4 object-cover object-center block w-[90px] h-[100px] md:w-[100px] rounded-lg md:h-[120px]"
-                src={"/student-card-images/" + cardDetails.studentImage}
+                src={"/student-card-images/" + prevCardDetail.studentImage}
               />
 
               {/* /////////---Card-Details----//////////// */}
@@ -64,33 +62,31 @@ const CardUi = () => {
                 </div>
                 <div className="">
                   <p className="text-[14px] sm:text-[15px]">
-                    {cardDetails.name}
+                    {prevCardDetail.name}
                   </p>
                   <p className="text-[14px] sm:text-[15px]">
-                    {cardDetails.fatherName}
+                    {prevCardDetail.fatherName}
                   </p>
                   <p className="text-[14px] sm:text-[15px]">
-                    {cardDetails.rollNumber}
+                    {prevCardDetail.rollNumber}
                   </p>
                   <p className="text-[14px] sm:text-[15px]">
-                    {cardDetails.department}
+                    {prevCardDetail.department}
                   </p>
                   <p className="text-[14px] sm:text-[15px]">
-                    {cardDetails.phoneNumber}
+                    {prevCardDetail.phoneNumber}
                   </p>
                 </div>
               </div>
             </div>
             <div className="text-center p-1 text-white text-[13px] bg-[#90b4c4] absolute bottom-0 z-20 w-full">
               <span className="font-bold">
-                Date to Join : {cardDetails.joinDate}
+                Date to Join : {prevCardDetail.joinDate}
               </span>{" "}
             </div>
           </div>
 
-
           {/*------------- card back side -----------------  */}
-
 
           <div className="flex flex-col relative h-[200px] w-[320px] md:w-[400px] md:h-[233px] rounded-lg bg-slate-200 overflow-hidden">
             <div className="text-md font-semibold bg-[#579cbc] sm:p-2 p-1 text-center">
@@ -109,7 +105,7 @@ const CardUi = () => {
                   <div>Loading....</div>
                 )}
                 <div className="sm:w-[90px] w-[75px] text-[8px] text-center">
-                  {cardDetails.studentId}
+                  {prevCardDetail.studentId}
                 </div>
               </div>
 

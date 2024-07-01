@@ -23,14 +23,20 @@ export function ContextProvider({ children }) {
     }
   }
 
+  async function searchStudentCard(id) {
+    const responce = await fetch(`/api/v1/student/search-student-card/${id}`);
+    const result = await responce.json();
+    //   console.log(result.data[0]);
+    return result;
+  }
+
   async function handlePreviewStudentCard(id) {
-    const res = await fetch(`/api/v1/student/search-student-card/${id}`);
-    const getCardDetail = await res.json();
+    const getCardDetail = await searchStudentCard(id)
     if (!getCardDetail.data) {
       return toast.warn(getCardDetail.message);
     }
     if (getCardDetail.data) {
-      setPrevCardDetail(getCardDetail.data);
+      setPrevCardDetail(getCardDetail.data[0]);
       setShowModal(true);
     }
   }
@@ -79,7 +85,8 @@ export function ContextProvider({ children }) {
         deleteCardDetail,
         setDeleteCardDetail,
         fineData,
-        getFineDetail
+        getFineDetail,
+        searchStudentCard,
       }}
     >
       {children}

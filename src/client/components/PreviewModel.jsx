@@ -1,9 +1,6 @@
-import React, { useContext } from "react";
-import CardUi from "./studentCard/CardUi";
-import { Context } from "../context/Context";
+import React from "react";
 
-const PreviewModel = ({title, component }) => {
-  const { setShowModal } = useContext(Context);
+const PreviewModel = ({title, component, isModelShow }) => {
   return (
     <div className="flex justify-center backdrop-filter backdrop-blur items-center overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
       <div className="relative">
@@ -13,7 +10,7 @@ const PreviewModel = ({title, component }) => {
               {title}
             </p>
             <button
-              onClick={() => setShowModal(false)}
+              onClick={() => isModelShow(false)}
               className="text-black opacity-7 text-1xl w-8 h-8 text-center rounded-full bg-slate-200 justify-center items-center flex "
             >
               <p className="font-bold">X</p>

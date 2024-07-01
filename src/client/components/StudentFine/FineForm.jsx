@@ -1,13 +1,13 @@
-import React from 'react'
+import React from "react";
 
-const FineForm = ({func}) => {
+const FineForm = ({ func, isUpdate }) => {
   return (
     <form className="w-full max-w-sm" onSubmit={func}>
       <div className="md:flex md:items-center mb-6">
         <div className="md:w-1/3">
           <label
             className="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4"
-            for="inline-full-name"
+            htmlFor="inline-full-name"
           >
             Fine Title
           </label>
@@ -18,6 +18,7 @@ const FineForm = ({func}) => {
             id="fineTitle"
             type="text"
             name="fineTitle"
+            defaultValue={isUpdate ? isUpdate?.fineTitle : ""}
             placeholder="Enter here"
             required
           />
@@ -28,7 +29,7 @@ const FineForm = ({func}) => {
         <div className="md:w-1/3">
           <label
             className="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4"
-            for="inline-password"
+            htmlFor="inline-password"
           >
             Fine Price
           </label>
@@ -40,6 +41,7 @@ const FineForm = ({func}) => {
             type="number"
             name="finePrice"
             placeholder="Enter value"
+            defaultValue={isUpdate ? isUpdate?.finePrice : ""}
             required
           />
         </div>
@@ -51,12 +53,12 @@ const FineForm = ({func}) => {
             className="shadow bg-purple-500 hover:bg-purple-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"
             type="submit"
           >
-            Submit
+            {isUpdate ? "Update" : "Submit"}
           </button>
         </div>
       </div>
     </form>
-  )
-}
+  );
+};
 
-export default FineForm
+export default FineForm;

@@ -1,11 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 
-const Search = () => {
+const Search = ({ setValue, searchHandler }) => {
   return (
     <div>
-      <label htmlFor="table-search" className="sr-only">
-        Search
-      </label>
       <div className="relative flex gap-3">
         <div className="absolute inset-y-0 left-0 rtl:inset-r-0 rtl:right-0 flex items-center ps-3 pointer-events-none">
           <svg
@@ -25,11 +22,14 @@ const Search = () => {
         <input
           type="text"
           id="table-search"
+          onChange={(e) => setValue(e.target.value)}
           className="block p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80 bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-          placeholder="Search student..."
+          placeholder="Search student by ID or RollNo..."
         />
-
-        <button className="px-6 py-2 bg-black/80 text-sm rounded-lg text-white hover:bg-black transition-all cursor-pointer">
+        <button
+          onClick={searchHandler}
+          className="px-6 py-2 bg-black/80 text-sm rounded-lg text-white hover:bg-black transition-all cursor-pointer"
+        >
           Search
         </button>
       </div>

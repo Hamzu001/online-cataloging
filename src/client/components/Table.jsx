@@ -1,20 +1,15 @@
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import PreviewModel from "./PreviewModel";
 import { FaEdit } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
 import { GrView } from "react-icons/gr";
-import { Context } from "../context/Context";
 import CardUi from "./studentCard/CardUi";
 import { useNavigate } from "react-router-dom";
+import { Context } from "../context/Context";
 
-const Table = () => {
-  const navigate = useNavigate()
-  const {
-    cardData,
-    handlePreviewStudentCard,
-    showModal,
-    handleDeleteStudentCard,
-  } = useContext(Context);
+const Table = ({ cardData }) => {
+  const { handlePreviewStudentCard, showModal, setShowModal, handleDeleteStudentCard } = useContext(Context);
+  const navigate = useNavigate();
 
   return (
     <div>
@@ -93,7 +88,7 @@ const Table = () => {
         </tbody>
       </table>
       {showModal ? (
-        <PreviewModel title="Student College Card" component={<CardUi />} />
+        <PreviewModel title="Student College Card" isModelShow={setShowModal} component={<CardUi />} />
       ) : null}
     </div>
   );
