@@ -1,12 +1,15 @@
-import React from "react";
+import React, { useContext } from "react";
 import Form from "../../components/studentCard/Form";
 import { toast } from "react-toastify";
+import { Context } from "../../context/Context";
 
 const CreateStudentCard = () => {
-  
+  const { getDetailAndUpdateTable, setGetDetailAndUpdateTable } = useContext(Context);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const formData = new FormData(e.currentTarget);
+    const form = e.currentTarget;
+    const formData = new FormData(form);
     try {
       const responce = await fetch("/api/v1/student/create-student-card", {
         method: "POST",
@@ -23,10 +26,9 @@ const CreateStudentCard = () => {
         return toast.warn(creatStudentCard.message);
       }
 
-      if (creatStudentCard?.data) {
-        toast.success(creatStudentCard.message);
-        form.reset();
-      }
+      toast.success(creatStudentCard.message);
+      setGetDetailAndUpdateTable(!getDetailAndUpdateTable)
+      form.reset();
     } catch (error) {
       console.log(error);
     }

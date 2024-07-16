@@ -105,7 +105,7 @@ const getStudentCard = asyncHandler(async (req, res) => {
 // search student card by id
 const searchStudentCard = asyncHandler(async (req, res) => {
   const { id } = req.params;
-  
+
   try {
     const sqlQuery = `SELECT * FROM cards WHERE ${
       id.search("-") > 0 ? "`rollNumber`= ?" : "`studentId`= ?"

@@ -19,6 +19,10 @@ export default function Navbar() {
       path: "/student-card",
     },
     {
+      name: "Library Cataloging",
+      path: "/library-cataloging",
+    },
+    {
       name: "About US",
       path: "/about-us",
     },

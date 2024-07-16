@@ -6,8 +6,12 @@ import { Context } from "../../context/Context";
 
 const UpdateCard = () => {
   const { id } = useParams();
-  const {searchStudentCard} = useContext(Context)
-  const [searchDetail, setSearchDetail] = useState(null)
+  const {
+    searchStudentCard,
+    setGetDetailAndUpdateTable,
+    getDetailAndUpdateTable,
+  } = useContext(Context);
+  const [searchDetail, setSearchDetail] = useState(null);
 
   useEffect(() => {
     async function searchStudent() {
@@ -15,9 +19,9 @@ const UpdateCard = () => {
       if (!result.data) {
         return toast.warn(result.message);
       }
-      setSearchDetail(result.data[0])
+      setSearchDetail(result.data[0]);
     }
-    searchStudent()
+    searchStudent();
   }, []);
 
   const handleSubmit = async (e) => {
@@ -36,7 +40,7 @@ const UpdateCard = () => {
 
       const updateStudentCard = await responce.json();
       if (!updateStudentCard?.data) return toast.warn(updateStudentCard.message);
-
+      setGetDetailAndUpdateTable(!getDetailAndUpdateTable);
       toast.success(updateStudentCard.message);
     } catch (error) {
       console.log(error);

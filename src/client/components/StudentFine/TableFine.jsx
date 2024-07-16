@@ -5,9 +5,15 @@ import { toast } from "react-toastify";
 import PreviewModel from "../PreviewModel";
 import FineForm from "./FineForm";
 
+const itemsPerPage = 5;
+
 const TableFine = ({ data, updateTable, tableRow }) => {
-  const [isUpdate, setIsUpdate] = useState(null)
-  const [isUpdateModel, setIsUpdateModel] = useState(null)
+  
+  const [isUpdate, setIsUpdate] = useState(null);
+  const [isUpdateModel, setIsUpdateModel] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const totalPages = Math.ceil(data.length / itemsPerPage);
+
   const deleteFineDetail = async (id) => {
     try {
       const res = await fetch(`/api/v1/finedetail/delete-fine-detail/${id}`, {
@@ -25,11 +31,11 @@ const TableFine = ({ data, updateTable, tableRow }) => {
   };
 
   const filterFineDetail = async (id) => {
-    const filterData = await data?.filter((items)=> (items.id==id))
-    setIsUpdateModel(true)
-    setIsUpdate(filterData[0])
+    const filterData = await data?.filter((items) => items.id == id);
+    setIsUpdateModel(true);
+    setIsUpdate(filterData[0]);
     // console.log(filterData[0]);
-  }
+  };
 
   const updateFineDetail = async (e) => {
     e.preventDefault();
@@ -41,86 +47,126 @@ const TableFine = ({ data, updateTable, tableRow }) => {
     }
 
     try {
-      const res = await fetch(`/api/v1/finedetail/update-fine-detail/${isUpdate.id}`, {
-        method: "PUT",
-        body: JSON.stringify({ fineTitle, finePrice }),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+      const res = await fetch(
+        `/api/v1/finedetail/update-fine-detail/${isUpdate.id}`,
+        {
+          method: "PUT",
+          body: JSON.stringify({ fineTitle, finePrice }),
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
       const updateDetail = await res.json();
       if (!updateDetail.data) {
         return toast.warn(deleteFineDetail.message);
       }
       updateTable(!tableRow);
       toast.success(isUpdate.id + " " + updateDetail.message);
-      setIsUpdateModel(false)
+      setIsUpdateModel(false);
     } catch (error) {
       toast.warn("server error");
     }
-  }
+  };
+
+  const handleClick = (page) => {
+    setCurrentPage(page);
+  };
+
+  const renderPageNumbers = () => {
+    const pageNumbers = [];
+    for (let i = 1; i <= totalPages; i++) {
+      data.length > itemsPerPage &&
+        pageNumbers.push(
+          <button
+            className=" bg-red-300 p-1 px-2 cursor-pointer rounded-full text-white"
+            key={i}
+            onClick={() => handleClick(i)}
+            disabled={i === currentPage}
+          >
+            {i}
+          </button>
+        );
+    }
+    return pageNumbers;
+  };
+
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = data.slice(indexOfFirstItem, indexOfLastItem);
 
   return (
     <>
-    <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-      <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-        <tr>
-          <th scope="col" className="px-6 py-3">
-            Id
-          </th>
-          <th scope="col" className="px-6 py-3">
-            Fine Title
-          </th>
-          <th scope="col" className="px-6 py-3">
-            Fine Rs.
-          </th>
-          <th
-            scope="col"
-            className="px-6 flex justify-center items-center py-3"
-          >
-            Actions
-          </th>
-        </tr>
-      </thead>
-
-      <tbody>
-        {data.map((items) => (
-          <tr
-            key={items.id}
-            className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
-          >
-            <td className="w-4 p-4">{items.id}</td>
-            <td className="px-6 py-4">{items.fineTitle}</td>
-            <td className="px-6 py-4">{items.finePrice}</td>
-            <td className="flex justify-center items-center gap-2 px-6 py-4">
-              <button
-                onClick={() => filterFineDetail(items.id)}
-                type="button"
-                className="font-medium text-xl text-blue-600 dark:text-blue-500 hover:underline"
-              >
-                <FaEdit />
-              </button>
-              <button
-                type="button"
-                onClick={() => deleteFineDetail(items.id)}
-                className="font-medium mx-2 text-2xl  text-red-600 "
-              >
-                <MdDelete />
-              </button>
-            </td>
+      <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+        <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+          <tr>
+            <th scope="col" className="px-6 py-3">
+              Id
+            </th>
+            <th scope="col" className="px-6 py-3">
+              Fine Title
+            </th>
+            <th scope="col" className="px-6 py-3">
+              Fine Rs.
+            </th>
+            <th
+              scope="col"
+              className="px-6 flex justify-center items-center py-3"
+            >
+              Actions
+            </th>
           </tr>
-        ))}
-      </tbody>
-    </table>
-    {isUpdateModel ? (
-      <PreviewModel
-        title="Update Fine Detail"
-        component={isUpdate?<FineForm func={updateFineDetail} isUpdate={isUpdate} />: <div>loading...</div>}
-        isModelShow={setIsUpdateModel}
-      />
-    ) : (
-      ""
-    )}
-  </>)};
+        </thead>
+
+        <tbody>
+          {currentItems.map((items) => (
+            <tr
+              key={items.id}
+              className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+            >
+              <td className="w-4 p-4">{items.id}</td>
+              <td className="px-6 py-4">{items.fineTitle}</td>
+              <td className="px-6 py-4">{items.finePrice}</td>
+              <td className="flex justify-center items-center gap-2 px-6 py-4">
+                <button
+                  onClick={() => filterFineDetail(items.id)}
+                  type="button"
+                  className="font-medium text-xl text-blue-600 dark:text-blue-500 hover:underline"
+                >
+                  <FaEdit />
+                </button>
+                <button
+                  type="button"
+                  onClick={() => deleteFineDetail(items.id)}
+                  className="font-medium mx-2 text-2xl  text-red-600 "
+                >
+                  <MdDelete />
+                </button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+      <div className="flex p-2 gap-2 justify-center items-center">
+        {renderPageNumbers()}
+      </div>
+      {isUpdateModel ? (
+        <PreviewModel
+          title="Update Fine Detail"
+          component={
+            isUpdate ? (
+              <FineForm func={updateFineDetail} isUpdate={isUpdate} />
+            ) : (
+              <div>loading...</div>
+            )
+          }
+          isModelShow={setIsUpdateModel}
+        />
+      ) : (
+        ""
+      )}
+    </>
+  );
+};
 
 export default TableFine;

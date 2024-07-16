@@ -1,12 +1,14 @@
+import React from "react";
 import { Route, Routes } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Home from "./pages/home/Home.jsx";
 import Navbar from "./components/Header/Navbar.jsx";
 import Oops from "./pages/notFound/Oops.jsx";
+import LibraryCataloging from "./pages/libraryCataloging/LibraryCataloging.jsx";
 import CreateStudentCard from "./pages/createNewCard/CreateStudentCard.jsx";
 import StudentCards from "./pages/studentcards/StudentCards.jsx";
-import StudentFine from "./pages/studenFine/StudentFine.jsx"
+import StudentFine from "./pages/studenFine/StudentFine.jsx";
 import UpdateCard from "./pages/updateCard/UpdateCard.jsx";
 
 const AppLayout = () => {
@@ -27,6 +29,8 @@ const AppLayout = () => {
         <Route path="/update-card/:id" element={<UpdateCard />} />
         <Route path="/student-card" element={<StudentCards />} />
         <Route path="/student-fine" element={<StudentFine />} />
+        <Route path="/library-cataloging" element={<LibraryCataloging />} />
+
         <Route path="*" element={<Oops />} />
       </Routes>
     </>

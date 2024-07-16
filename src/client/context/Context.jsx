@@ -4,11 +4,11 @@ import { toast } from "react-toastify";
 export const Context = createContext();
 
 export function ContextProvider({ children }) {
-  const [cardData, setCardData] = useState("");
+  const [cardData, setCardData] = useState(null);
   const [fineData, setFineData] = useState("");
   const [showModal, setShowModal] = useState(false);
   const [prevCardDetail, setPrevCardDetail] = useState("");
-  const [deleteCardDetail, setDeleteCardDetail] = useState("");
+  const [getDetailAndUpdateTable, setGetDetailAndUpdateTable] = useState(false);
 
   async function getStudentCardDetail() {
     const res = await fetch("/api/v1/student/get-student-card");
@@ -30,19 +30,7 @@ export function ContextProvider({ children }) {
     return result;
   }
 
-  async function handlePreviewStudentCard(id) {
-    const getCardDetail = await searchStudentCard(id)
-    if (!getCardDetail.data) {
-      return toast.warn(getCardDetail.message);
-    }
-    if (getCardDetail.data) {
-      setPrevCardDetail(getCardDetail.data[0]);
-      setShowModal(true);
-    }
-  }
-
   async function handleDeleteStudentCard(id) {
-    // console.log(id);
     const res = await fetch(`/api/v1/student/delete-student-card/${id}`, {
       method: "DELETE",
     });
@@ -51,7 +39,6 @@ export function ContextProvider({ children }) {
       return toast.warn(deleteCardDetail.message);
     }
     if (deleteCardDetail.data) {
-      setDeleteCardDetail(deleteCardDetail.data);
       toast.success(id + " " + deleteCardDetail.message);
     }
   }
@@ -71,22 +58,23 @@ export function ContextProvider({ children }) {
 
   useEffect(() => {
     getStudentCardDetail();
-  }, [deleteCardDetail]);
+  }, [getDetailAndUpdateTable]);
 
   return (
     <Context.Provider
       value={{
         cardData,
-        handlePreviewStudentCard,
+        setCardData,
         handleDeleteStudentCard,
         showModal,
         prevCardDetail,
+        setPrevCardDetail,
         setShowModal,
-        deleteCardDetail,
-        setDeleteCardDetail,
+        setGetDetailAndUpdateTable,
+        getDetailAndUpdateTable,
         fineData,
         getFineDetail,
-        searchStudentCard,
+        searchStudentCard
       }}
     >
       {children}

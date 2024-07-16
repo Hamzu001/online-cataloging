@@ -1,25 +1,43 @@
 import connectToMySql from "../db/index.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
+import { getCurrentDateTime } from "../utils/functions.js";
 
 // create new student fine
 const createStudentFine = asyncHandler(async (req, res) => {
-  const { studentId, rollNumber, fineTitle, finePrice, fineState, reason } =
-    req.body;
+  const {
+    studentId,
+    rollNumber,
+    fineTitle,
+    finePrice,
+    fineState,
+    reason,
+    teacher,
+    teacherId,
+  } = req.body;
 
   if (
-    [studentId, rollNumber, fineTitle, finePrice, fineState, reason].some(
-      (field) => field.trim() == ""
-    )
+    [
+      studentId,
+      rollNumber,
+      fineTitle,
+      finePrice,
+      fineState,
+      reason,
+      teacher,
+      teacherId,
+    ].some((field) => field.trim() == "")
   ) {
     return res
       .status(400)
       .json(new ApiResponse(400, null, "All fields are required"));
   }
 
+  const date = getCurrentDateTime();
+
   try {
     const sqlQuery =
-      "INSERT INTO `student_fines_list` (`studentId`, `rollNumber`, `fineTitle`, `finePrice`, `fineState`, `reason` ) VALUES (?,?,?,?,?,?)";
+      "INSERT INTO `student_fines_list` (`studentId`, `rollNumber`, `fineTitle`, `finePrice`, `fineState`, `reason`, `teacher`, `teacherId`, `date`  ) VALUES (?,?,?,?,?,?,?,?,?)";
 
     const values = [
       studentId,
@@ -28,6 +46,9 @@ const createStudentFine = asyncHandler(async (req, res) => {
       finePrice,
       fineState,
       reason,
+      teacher,
+      teacherId,
+      date,
     ];
 
     const insertToDb = new Promise((resolve) => {
@@ -85,7 +106,9 @@ const getStudentFine = asyncHandler(async (req, res) => {
     if (result.length === 0) {
       return res
         .status(400)
-        .json(new ApiResponse(400, null,  `${id} This Student has no Fine/Warning`));
+        .json(
+          new ApiResponse(400, [], `${id} This Student has no Fine/Warning`)
+        );
     }
 
     res

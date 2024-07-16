@@ -43,6 +43,12 @@ const ShowFineDetail = ({ data }) => {
             <th scope="col" className="px-6 py-3">
               Fine Reason
             </th>
+            <th scope="col" className="px-6 py-3">
+              Teacher
+            </th>
+            <th scope="col" className="px-6 py-3">
+              Date
+            </th>
             <th
               scope="col"
               className="px-6 flex justify-center items-center py-3"
@@ -62,6 +68,8 @@ const ShowFineDetail = ({ data }) => {
               <td className="px-6 py-4">{items.finePrice}</td>
               <td className="px-6 py-4">{items.fineState}</td>
               <td className="px-6 py-4">{items.reason}</td>
+              <td className="px-6 py-4">{items.teacher}</td>
+              <td className="px-6 py-4">{items.date}</td>
               <td className="flex justify-center items-center gap-2 px-6 py-4">
                 <button
                   //   onClick={() => filterFineDetail(items.id)}

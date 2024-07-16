@@ -51,7 +51,7 @@ const Home = () => {
               <p className="border-b-2 mt-4 border-black"></p>
             </div>
           )}
-          {cardData ? <Table cardData={cardData} /> : <div> Loading....</div>}
+          {!searchData && cardData && <Table cardData={cardData} /> }
         </div>
       </div>
     </div>

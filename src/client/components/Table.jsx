@@ -8,8 +8,20 @@ import { useNavigate } from "react-router-dom";
 import { Context } from "../context/Context";
 
 const Table = ({ cardData }) => {
-  const { handlePreviewStudentCard, showModal, setShowModal, handleDeleteStudentCard } = useContext(Context);
+  const { setPrevCardDetail, showModal, setCardData, setShowModal, handleDeleteStudentCard } = useContext(Context);
   const navigate = useNavigate();
+
+  const handlePreview = (id)=> {
+    const filterData = cardData.filter((items)=> (items.studentId===id))
+    setPrevCardDetail(filterData[0]);
+    setShowModal(true)
+  }
+
+  const handleDelete = (id)=> {
+    const filterData = cardData.filter((items)=> (items.studentId!==id))
+    handleDeleteStudentCard(id)
+    setCardData(filterData);
+  }
 
   return (
     <div>
@@ -62,7 +74,8 @@ const Table = ({ cardData }) => {
               <td className="px-6 py-4">{items.joinDate}</td>
               <td className="flex items-center gap-2 px-6 py-4">
                 <button
-                  onClick={() => handlePreviewStudentCard(items.studentId)}
+                  // onClick={() => handlePreviewStudentCard(items.studentId)}
+                  onClick={() => handlePreview(items.studentId)}
                   type="button"
                   className="font-medium mx-2 text-xl text-black"
                 >
@@ -77,7 +90,8 @@ const Table = ({ cardData }) => {
                 </button>
                 <button
                   type="button"
-                  onClick={() => handleDeleteStudentCard(items.studentId)}
+                  // onClick={() => handleDeleteStudentCard(items.studentId)}
+                  onClick={() => handleDelete(items.studentId)}
                   className="font-medium mx-2 text-2xl  text-red-600 "
                 >
                   <MdDelete />
