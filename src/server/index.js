@@ -1,9 +1,13 @@
 import "dotenv/config.js";
-import ViteExpress from "vite-express";
+import express from "express";
 import app from "./app.js";
 
-const PORT = process.env.PORT || 3000;
+const port = process.env.PORT;
 
-export default ViteExpress.listen(app, PORT, () => {
-  console.log("Server is runing on port", PORT);
+app.use(express.static("dist"), (req, res) => {
+  res.sendFile("dist/index.html", { root: process.cwd() });
 });
+
+app.listen(port, () =>
+  console.log("Server is started: http://localhost:" + port)
+);
