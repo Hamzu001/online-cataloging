@@ -1,8 +1,9 @@
 import { Router } from "express";
-import { allBooks } from "../controllers/books.controller.js";
+import { allLibraryBooks, searchBookInLibrary } from "../controllers/books.controller.js";
 
 const router = Router();
 
-router.route("/allbooks").get(allBooks);
+router.route("/all-library-books").get(allLibraryBooks);
+router.route("/search-library-books").post(searchBookInLibrary);
 
 export default router;

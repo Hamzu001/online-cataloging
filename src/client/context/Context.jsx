@@ -9,6 +9,7 @@ export function ContextProvider({ children }) {
   const [showModal, setShowModal] = useState(false);
   const [prevCardDetail, setPrevCardDetail] = useState("");
   const [getDetailAndUpdateTable, setGetDetailAndUpdateTable] = useState(false);
+  const [libraryBookDetail, setLibraryBookDetail] = useState(null);
 
   async function getStudentCardDetail() {
     const res = await fetch("/api/v1/student/get-student-card");
@@ -47,13 +48,29 @@ export function ContextProvider({ children }) {
     const res = await fetch("/api/v1/finedetail/get-fine-detail");
     const getFineDetail = await res.json();
     if (!getFineDetail.data) {
-      return toast.warn(getCardDetail.message);
+      return toast.warn(getFineDetail.message);
     }
     if (getFineDetail.data) {
       const reversData = getFineDetail.data.reverse();
       // console.log(reversData);
       setFineData(reversData);
     }
+  }
+
+  async function searchBooksInLibrary(searchBook) {
+    const res = await fetch("/api/v1/books/search-library-books", {
+      method: "POST",
+      body: JSON.stringify(searchBook),
+      headers:{
+        "Content-Type":"application/json"
+      }
+    });
+    const bookDetail = await res.json();
+    if (!bookDetail.data) {
+      return toast.warn(bookDetail.message);
+    }
+    // console.log(bookDetail.data);
+    setLibraryBookDetail(bookDetail.data);
   }
 
   useEffect(() => {
@@ -74,7 +91,9 @@ export function ContextProvider({ children }) {
         getDetailAndUpdateTable,
         fineData,
         getFineDetail,
-        searchStudentCard
+        searchStudentCard,
+        searchBooksInLibrary,
+        libraryBookDetail
       }}
     >
       {children}
